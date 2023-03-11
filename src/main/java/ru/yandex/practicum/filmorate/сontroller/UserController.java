@@ -18,20 +18,18 @@ public class UserController {
 
     @PostMapping(value = "/post")
     public User createUser(@RequestBody User user) throws ValidationException {
-        User validUser = validation.userValidation(user);
-        users.put(validUser.getId(), validUser);
-        log.info("Пользователь " + validUser.getName() + " добавлен.");
-        return validUser;
+        users.put(user.getId(), user);
+        log.info("Пользователь " + user.getName() + " добавлен.");
+        return user;
     }
 
     @PostMapping(value = "/name")
     public User updateUser(@RequestBody User user) throws ValidationException {
-        User validUser = validation.userValidation(user);
-        if (users.containsKey(validUser.getId())) {
-            users.put(validUser.getId(), validUser);
+        if (users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
         }
-        log.info("Пользователь " + validUser.getName() + " обновлен.");
-        return validUser;
+        log.info("Пользователь " + user.getName() + " обновлен.");
+        return user;
     }
 
     @GetMapping(value = "/users")

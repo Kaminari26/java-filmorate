@@ -18,20 +18,18 @@ public class FilmController {
 
     @PostMapping
     public Film create(@RequestBody Film film) throws ValidationException {
-        Film validFilm = validation.filmValidation(film);
-        filmMap.put(validFilm.getName(), validFilm);
-        log.info("Фильм " + validFilm.getName() + " добавлен.");
-        return validFilm;
+        filmMap.put(film.getName(), film);
+        log.info("Фильм " + film.getName() + " добавлен.");
+        return film;
     }
 
     @PutMapping
     public Film update(@RequestBody Film film) throws ValidationException {
-        Film validFilm = validation.filmValidation(film);
-        if (filmMap.containsKey(validFilm.getName())) {
-            filmMap.put(validFilm.getName(), validFilm);
+        if (filmMap.containsKey(film.getName())) {
+            filmMap.put(film.getName(), film);
         }
-        log.info("Фильм " + validFilm.getName() + " обновлен");
-        return validFilm;
+        log.info("Фильм " + film.getName() + " обновлен");
+        return film;
     }
 
     @GetMapping
