@@ -25,4 +25,8 @@ public class Film {
     LocalDate releaseDate;
     @Positive
     int duration;
+
+    public int filmId() {
+     return id+=+1;
+    }
 }
