@@ -13,7 +13,6 @@ import java.util.Map;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    Validation validation = new Validation();
     private final Map<String, Film> filmMap = new HashMap<>();
 
     @PostMapping

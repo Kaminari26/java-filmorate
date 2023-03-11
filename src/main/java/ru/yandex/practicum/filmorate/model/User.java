@@ -8,18 +8,18 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 public class User {
-    int id;
-    @NotNull
-    @Email
-    String email;
     @NoSpaces(message = "login не должен содержать пробелы")
     @NotNull
     String login;
     String name;
+    @NotNull
+    @Email
+    String email;
     @Past
-    LocalDateTime birthday;
+    LocalDate birthday;
 }

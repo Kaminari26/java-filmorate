@@ -13,26 +13,25 @@ import java.util.Map;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    Validation validation = new Validation();
-    private final Map<Integer, User> users = new HashMap<>();
+    private final Map<String, User> users = new HashMap<>();
 
-    @PostMapping(value = "/post")
+    @PostMapping
     public User createUser(@RequestBody User user) throws ValidationException {
-        users.put(user.getId(), user);
+        users.put(user.getLogin(), user);
         log.info("Пользователь " + user.getName() + " добавлен.");
         return user;
     }
 
-    @PostMapping(value = "/name")
+    @PutMapping
     public User updateUser(@RequestBody User user) throws ValidationException {
-        if (users.containsKey(user.getId())) {
-            users.put(user.getId(), user);
+        if (users.containsKey(user.getLogin())) {
+            users.put(user.getLogin(), user);
         }
         log.info("Пользователь " + user.getName() + " обновлен.");
         return user;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping
     public Map getUsersList(){
         return  users;
     }
