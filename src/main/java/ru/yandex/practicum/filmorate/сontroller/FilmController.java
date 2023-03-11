@@ -4,9 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.validationExeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.validation.Validation;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,27 +15,34 @@ import java.util.Map;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    private final Map<String, Film> filmMap = new HashMap<>();
+    LocalDate movieBirthday = LocalDate.of(1895,12,28);
+    private final Map<Integer, Film> filmMap = new HashMap<>();
 
     @PostMapping
     public Film create(@Valid @RequestBody Film film) throws ValidationException {
-        film.setId(film.filmId());
-        filmMap.put(film.getName(), film);
-        log.info("Фильм " + film.getName() + " добавлен.");
-        return film;
+        if (film.getReleaseDate().isBefore(movieBirthday)) {
+            throw new ValidationException("500");
+        } else {
+            film.setId(film.filmId());
+            filmMap.put(film.getId(), film);
+            log.info("Фильм " + film.getName() + " добавлен.");
+            return film;
+        }
     }
 
     @PutMapping
     public Film update(@Valid @RequestBody Film film) throws ValidationException {
-        if (filmMap.containsKey(film.getName())) {
-            filmMap.put(film.getName(), film);
+        if (filmMap.containsKey(film.getId())) {
+            filmMap.put(film.getId(), film);
+            log.info("Фильм " + film.getName() + " обновлен");
+            return film;
+        } else {
+            throw new RuntimeException("500");
         }
-        log.info("Фильм " + film.getName() + " обновлен");
-        return film;
     }
 
     @GetMapping
-    public Map getFilmList(){
-        return  filmMap;
+    public Collection<Film> getFilmList(){
+        return  filmMap.values();
     }
 }

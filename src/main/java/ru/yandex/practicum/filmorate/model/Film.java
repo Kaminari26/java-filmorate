@@ -6,10 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import ru.yandex.practicum.filmorate.validation.ReleaseDate;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,13 +16,13 @@ import java.time.LocalDateTime;
 public class Film {
     int id;
 
+    @NotBlank
     @NotNull
     String name;
 
     @Size (max = 200)
     String description;
-
-   // @ReleaseDate(message = "Неверно указана дата")
+    //  @ReleaseDate(message = "Неверно указана дата")
     LocalDate releaseDate;
 
     @Positive

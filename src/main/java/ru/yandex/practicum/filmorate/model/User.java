@@ -10,10 +10,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class User {
-    int id;
+    int id = 0 ;
 
-    @NotBlank
-   // @NoSpaces(message = "login не должен содержать пробелы")
+    //@NoSpaces(message = "login не должен содержать пробелы")
     @NotNull
     String login;
 
@@ -25,7 +24,4 @@ public class User {
 
     @Past
     LocalDate birthday;
-    public int generateId() {
-      return id += 1;
-    }
 }

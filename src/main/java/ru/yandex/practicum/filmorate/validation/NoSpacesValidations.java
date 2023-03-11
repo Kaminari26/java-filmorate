@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 @Slf4j
-public class Validation implements ConstraintValidator<NoSpaces, String> {
+public class NoSpacesValidations implements ConstraintValidator<NoSpaces, String> {
     @Override
     public boolean isValid(String str, ConstraintValidatorContext constraintValidatorContext) {
         return !str.contains(" ");
