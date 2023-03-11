@@ -26,7 +26,7 @@ public class Validation {
                 }
             }
         }
-        throw new ValidationException("Ошбика валидации");
+        throw new ValidationException("Ошибка валидации");
     }
 
     public Film filmValidation (Film film) throws ValidationException {
@@ -41,6 +41,6 @@ public class Validation {
         }
     }
 
-        throw new ValidationException("Ошбика валидации");
+        throw new ValidationException("Ошибка валидации");
     }
 }

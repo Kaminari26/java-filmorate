@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/film")
+@RequestMapping("/films")
 @Slf4j
 public class FilmController {
     Validation validation = new Validation();
