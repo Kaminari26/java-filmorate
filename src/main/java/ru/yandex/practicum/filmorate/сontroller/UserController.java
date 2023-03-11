@@ -17,6 +17,7 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User user) throws ValidationException {
+        user.setId(user.generateId());
         users.put(user.getLogin(), user);
         log.info("Пользователь " + user.getName() + " добавлен.");
         return user;

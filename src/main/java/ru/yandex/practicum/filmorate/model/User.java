@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class User {
+    int id;
     @NoSpaces(message = "login не должен содержать пробелы")
     @NotNull
     String login;
@@ -22,4 +23,7 @@ public class User {
     String email;
     @Past
     LocalDate birthday;
+    public int generateId() {
+      return id += 1;
+    }
 }
