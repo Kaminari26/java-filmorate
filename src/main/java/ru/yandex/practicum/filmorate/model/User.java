@@ -4,23 +4,25 @@ import lombok.Data;
 import lombok.NonNull;
 import ru.yandex.practicum.filmorate.validation.NoSpaces;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 public class User {
     int id;
-    @NoSpaces(message = "login не должен содержать пробелы")
+
+    @NotBlank
+   // @NoSpaces(message = "login не должен содержать пробелы")
     @NotNull
     String login;
+
     String name;
+    @NotBlank
     @NotNull
     @Email
     String email;
+
     @Past
     LocalDate birthday;
     public int generateId() {

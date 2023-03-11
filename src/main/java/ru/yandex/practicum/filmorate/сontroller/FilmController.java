@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.validationExeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.validation.Validation;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,14 +17,15 @@ public class FilmController {
     private final Map<String, Film> filmMap = new HashMap<>();
 
     @PostMapping
-    public Film create(@RequestBody Film film) throws ValidationException {
+    public Film create(@Valid @RequestBody Film film) throws ValidationException {
+        film.setId(film.filmId());
         filmMap.put(film.getName(), film);
         log.info("Фильм " + film.getName() + " добавлен.");
         return film;
     }
 
     @PutMapping
-    public Film update(@RequestBody Film film) throws ValidationException {
+    public Film update(@Valid @RequestBody Film film) throws ValidationException {
         if (filmMap.containsKey(film.getName())) {
             filmMap.put(film.getName(), film);
         }

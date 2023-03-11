@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.validationExeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.validation.Validation;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class UserController {
     private final Map<String, User> users = new HashMap<>();
 
     @PostMapping
-    public User createUser(@RequestBody User user) throws ValidationException {
+    public User createUser(@Valid @RequestBody User user) throws ValidationException {
         user.setId(user.generateId());
         users.put(user.getLogin(), user);
         log.info("Пользователь " + user.getName() + " добавлен.");
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User updateUser(@RequestBody User user) throws ValidationException {
+    public User updateUser(@Valid @RequestBody User user) throws ValidationException {
         if (users.containsKey(user.getLogin())) {
             users.put(user.getLogin(), user);
         }
