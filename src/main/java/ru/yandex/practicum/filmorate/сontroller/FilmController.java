@@ -15,15 +15,18 @@ import java.util.Map;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    LocalDate movieBirthday = LocalDate.of(1895,12,28);
+    private int counter;
+    public static final LocalDate MOVIE_BIRTHDAY = LocalDate.of(1895,12,28);
     private final Map<Integer, Film> filmMap = new HashMap<>();
 
     @PostMapping
-    public Film create(@Valid @RequestBody Film film) throws ValidationException {
-        if (film.getReleaseDate().isBefore(movieBirthday)) {
-            throw new ValidationException("500");
+    public Film create(@Valid @RequestBody Film film) {
+        log.info("Запрошено добавление фильма " + film);
+        if (film.getReleaseDate().isBefore(MOVIE_BIRTHDAY)) {
+            log.warn("Неверно указана дата релиза" + film.getName());
+            throw new ValidationException("Произошла ошибка при попытке создания фильма");
         } else {
-            film.setId(film.filmId());
+            film.setId(++counter);
             filmMap.put(film.getId(), film);
             log.info("Фильм " + film.getName() + " добавлен.");
             return film;
@@ -31,18 +34,19 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film update(@Valid @RequestBody Film film) throws ValidationException {
-        if (filmMap.containsKey(film.getId())) {
-            filmMap.put(film.getId(), film);
-            log.info("Фильм " + film.getName() + " обновлен");
-            return film;
-        } else {
-            throw new RuntimeException("500");
+    public Film update(@Valid @RequestBody Film film) {
+        log.info("Обновление фильма " + film);
+        if (!filmMap.containsKey(film.getId())) {
+            throw new RuntimeException("Не удалось обновить фильм");
         }
+        filmMap.put(film.getId(), film);
+        log.info("Фильм " + film.getName() + " обновлен");
+        return film;
     }
 
     @GetMapping
     public Collection<Film> getFilmList() {
-        return  filmMap.values();
+        log.info("Запрошен список фильмов");
+        return filmMap.values();
     }
 }
