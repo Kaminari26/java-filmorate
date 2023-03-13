@@ -15,6 +15,7 @@ public class UserValidationsTests extends User {
         User user = new User(1, "login", "name", "Email@email.jp" ,localDate);
         assertEquals("User(id=1, login=login, name=name, email=Email@email.jp, birthday=1946-01-20)", user.toString());
     }
+
 //я прошу прощения, не разобраался что тестировать. как-будто все через аннотации
     @Test
     public void badLoginUserAdd(){
