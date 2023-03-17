@@ -23,14 +23,13 @@ public class FilmController {
     public Film create(@Valid @RequestBody Film film) {
         log.info("Запрошено добавление фильма " + film);
         if (film.getReleaseDate().isBefore(MOVIE_BIRTHDAY)) {
-            log.warn("Неверно указана дата релиза" + film.getName());
+            log.error("Неверно указана дата релиза" + film.getName());
             throw new ValidationException("Произошла ошибка при попытке создания фильма");
-        } else {
-            film.setId(++counter);
-            filmMap.put(film.getId(), film);
-            log.info("Фильм " + film.getName() + " добавлен.");
-            return film;
         }
+        film.setId(++counter);
+        filmMap.put(film.getId(), film);
+        log.info("Фильм " + film.getName() + " добавлен.");
+        return film;
     }
 
     @PutMapping

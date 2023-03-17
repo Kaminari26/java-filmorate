@@ -10,16 +10,16 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Film {
-   private int id;
+    private int id;
 
     @NotBlank
-    String name;
+    private String name;
 
     @Size (min = 1 ,max = 200)
-   private String description;
+    private String description;
     //  @ReleaseDate(message = "Неверно указана дата")
-   private LocalDate releaseDate;
+    private LocalDate releaseDate;
 
     @Positive
-   private int duration;
+    private int duration;
 }

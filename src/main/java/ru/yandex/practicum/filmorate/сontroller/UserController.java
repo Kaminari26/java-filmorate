@@ -20,7 +20,7 @@ public class UserController {
     public User createUser(@Valid @RequestBody User user) {
         log.info("Запрошено добавление пользователя " + user);
         user.setId(++counter);
-        if (user.getName() == null){
+        if (user.getName() == null) {
             user.setName(user.getLogin());
         }
         users.put(user.getId(), user);
@@ -44,6 +44,7 @@ public class UserController {
 
     @GetMapping
     public Collection<User> getUsersList() {
+        log.info("Запрошен список пользователей");
         return users.values();
     }
 }
