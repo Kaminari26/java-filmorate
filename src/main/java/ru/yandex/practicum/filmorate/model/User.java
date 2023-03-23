@@ -9,14 +9,18 @@ import ru.yandex.practicum.filmorate.validation.NoSpaces;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class User {
-    private int id;
+    private Set<Long> friends = new HashSet<>();
 
-    //@NoSpaces(message = "login не должен содержать пробелы")
+    private Long id;
+
     @NotBlank
     private String login;
 
