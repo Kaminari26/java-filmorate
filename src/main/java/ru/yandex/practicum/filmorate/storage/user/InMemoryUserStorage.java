@@ -1,9 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +18,7 @@ public class InMemoryUserStorage implements UserStorage {
     public User update(@Valid @RequestBody User user) {
         if (!users.containsKey(user.getId())) {
             log.info("Пользователь " + user.getName() + "не был обновлен.");
-            throw new RuntimeException("Не удалось обновить пользователя");
+            throw new NoSuchElementException("Не удалось найти пользователя");
         }
         if(user.getName() == null) {
             user.setName(user.getLogin());
@@ -40,7 +38,7 @@ public class InMemoryUserStorage implements UserStorage {
         log.info("Запрошен пользователь с id " + id);
         if(!contains(id)) {
             log.error("Пользователь не найден");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException("Не удалось найти пользователя");
         }else {
             log.info("Пользователь найден");
             return users.get(id);
@@ -67,12 +65,11 @@ public class InMemoryUserStorage implements UserStorage {
     public void delete(Long id) {
         if (!contains(id)) {
             log.warn("Пользователь " + id + " не найден");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException("Не удалось найти пользователя");
 
-        }else {
+        }
             log.info("Удаление пользователя" + id);
             users.remove(id);
-        }
     }
 
     @Override

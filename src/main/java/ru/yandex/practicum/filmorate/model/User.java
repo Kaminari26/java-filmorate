@@ -2,14 +2,10 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import ru.yandex.practicum.filmorate.validation.NoSpaces;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,9 +13,10 @@ import java.util.Set;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class User {
-    private Set<Long> friends = new HashSet<>();
 
     private Long id;
+
+    private Set<Long> friendsIds = new HashSet<>();
 
     @NotBlank
     private String login;
