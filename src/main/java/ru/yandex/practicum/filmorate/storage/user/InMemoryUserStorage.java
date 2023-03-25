@@ -1,7 +1,9 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,14 +37,14 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User getById(Long id) {
-        log.info("Запрошен пользователь с id " + id);
-        if(!contains(id)) {
+        log.info("Запрошен пользователь с {} ", id);
+        User user = users.get(id);
+        if(user == null) {
             log.error("Пользователь не найден");
-            throw new NoSuchElementException("Не удалось найти пользователя");
-        }else {
-            log.info("Пользователь найден");
-            return users.get(id);
+            throw new NullPointerException("Не найден пользователь для удаления");
         }
+        log.info("Пользователь найден: {}", user);
+        return user;
     }
 
     public Map<Long, User> getUsersMap() {
@@ -63,10 +65,10 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public void delete(Long id) {
-        if (!contains(id)) {
+        User user = users.get(id);
+        if (user == null) {
             log.warn("Пользователь " + id + " не найден");
             throw new NoSuchElementException("Не удалось найти пользователя");
-
         }
             log.info("Удаление пользователя" + id);
             users.remove(id);
@@ -75,10 +77,5 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public Collection<User> getAll() {
         return new ArrayList<>(users.values());
-    }
-
-    @Override
-    public Boolean contains(Long id) {
-        return users.containsKey(id);
     }
 }

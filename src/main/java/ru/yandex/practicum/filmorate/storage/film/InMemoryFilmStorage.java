@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 
 @Component
 @Slf4j
-public class InMemoryFilmStorage {
+public class InMemoryFilmStorage implements FilmStorage{
     private Long counter = 0l;
     public static final LocalDate MOVIE_BIRTHDAY = LocalDate.of(1895,12,28);
     private final HashMap<Long, Film> filmMap = new HashMap<>();
@@ -63,8 +63,7 @@ public class InMemoryFilmStorage {
     public void delete(Long id) {
         log.info("Удаление фильма " + id);
 
-        if(!filmMap.containsKey(id))
-        {
+        if(!filmMap.containsKey(id)) {
             log.error("Фильм не найден");
             throw new NoSuchElementException("Не удалось найти Фильм");
         }

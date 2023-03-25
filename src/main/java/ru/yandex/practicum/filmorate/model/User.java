@@ -22,6 +22,7 @@ public class User {
     private String login;
 
     private String name;
+
     @NotBlank
     @Email
     private String email;

@@ -19,7 +19,6 @@ import java.util.Collection;
 @RequestMapping("/users")
 //@Component
 @Service
-@RequiredArgsConstructor
 public class UserController {
     InMemoryUserStorage inMemoryUserStorage;
     UserService userservice;

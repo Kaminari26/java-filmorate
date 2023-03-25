@@ -9,20 +9,22 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class FilmService {
-    InMemoryFilmStorage inMemoryFilmStorage;
-    InMemoryUserStorage inMemoryUserStorage = new InMemoryUserStorage();
+    private final InMemoryFilmStorage inMemoryFilmStorage;
+    private final InMemoryUserStorage inMemoryUserStorage;
 
     @Autowired
-    public FilmService(InMemoryFilmStorage inMemoryFilmStorage) {
+    public FilmService(InMemoryFilmStorage inMemoryFilmStorage, InMemoryUserStorage inMemoryUserStorage) {
         this.inMemoryFilmStorage = inMemoryFilmStorage;
+        this.inMemoryUserStorage = inMemoryUserStorage;
     }
 
     public Film addLike(Long id, Long userId) {
@@ -33,11 +35,10 @@ public class FilmService {
         if (film.getLikes().equals(userId)) {
             log.warn("Лайк уже был поставлен ранее");
             throw new ResponseStatusException(HttpStatus.PRECONDITION_REQUIRED);
-        } else {
+        }
             log.info("Лайк успешно поставлен");
             film.getLikes().add(userId);
             return film;
-        }
     }
 
     public void deleteLike(Long id, Long userId) {
@@ -45,11 +46,10 @@ public class FilmService {
         log.info("Пользователь: {} удаляет лайк у фильма: {}", inMemoryUserStorage.getUsersMap().get(userId), film);
         if (!film.getLikes().contains(userId)) {
             log.warn("Лайк не найден");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else {
+            throw new NoSuchElementException("Не удалось найти лайк");
+        }
             log.info("Лайк был удален");
             film.getLikes().remove(userId);
-        }
     }
 
     public Collection<Film> getPopularFilms(int count) {
