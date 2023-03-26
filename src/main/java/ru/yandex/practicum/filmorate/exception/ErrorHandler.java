@@ -17,7 +17,7 @@ public class ErrorHandler {
     public Map<String, String> handleNotFoundError(final NoSuchElementException e) {
         log.info("Ошибка 404");
         return Map.of(
-                "error", "Обьект не найден" ,
+                "error", "Обьект не найден",
                 "errorMassaege" , e.getMessage());
     }
 
