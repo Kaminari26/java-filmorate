@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice(value = "ru.yandex.practicum.filmorate")
 @Slf4j
 public class ErrorHandler {
-    
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleNotFoundError(final NoSuchElementException e) {
@@ -42,7 +41,4 @@ public class ErrorHandler {
         log.info("500 {}", e.getMessage(), e);
         return new ErrorResponse(e.getMessage());
     }
-
-
-
 }
