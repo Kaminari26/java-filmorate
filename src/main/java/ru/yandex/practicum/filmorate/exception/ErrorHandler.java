@@ -18,7 +18,7 @@ public class ErrorHandler {
         log.info("Ошибка 404");
         return Map.of(
                 "error", "Обьект не найден",
-                "errorMassaege" , e.getMessage());
+                "errorMassaege", e.getMessage());
     }
 
     @ExceptionHandler
