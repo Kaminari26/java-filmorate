@@ -6,13 +6,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.User;
 import lombok.extern.slf4j.Slf4j;
+import ru.yandex.practicum.filmorate.storage.MemoryStorage;
+import ru.yandex.practicum.filmorate.storage.Storage;
 
 import javax.validation.Valid;
 import java.util.*;
 
 @Component
 @Slf4j
-public class InMemoryUserStorage implements UserStorage {
+public class InMemoryUserStorage implements MemoryStorage<User> {
     private Long counter = 0l;
     private final Map<Long, User> users = new HashMap<>();
 
@@ -47,7 +49,8 @@ public class InMemoryUserStorage implements UserStorage {
         return user;
     }
 
-    public Map<Long, User> getUsersMap() {
+    @Override
+    public Map<Long, User> getMap() {
         return users;
     }
 

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.service.film.FilmService;
+import ru.yandex.practicum.filmorate.service.film.IFilmService;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -17,9 +18,9 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class FilmController {
     InMemoryFilmStorage inMemoryFilmStorage;
-    FilmService filmService;
+    IFilmService filmService;
     @Autowired
-    public FilmController(InMemoryFilmStorage inMemoryFilmStorage,FilmService filmService) {
+    public FilmController(InMemoryFilmStorage inMemoryFilmStorage,IFilmService filmService) {
         this.inMemoryFilmStorage = inMemoryFilmStorage;
         this.filmService = filmService;
     }
@@ -27,15 +28,16 @@ public class FilmController {
     @PostMapping
     public Film create(@Valid @RequestBody Film film) {
         log.info("Пришел запрос Post /films");
-       inMemoryFilmStorage.add(film);
+      filmService.add(film);
        log.info("Отправлен ответ" + film);
+
        return film;
     }
 
     @PutMapping
     public Film update(@Valid @RequestBody Film film) {
         log.info("Пришел запрос Put /films");
-        Film updatedFilm = inMemoryFilmStorage.update(film);
+        Film updatedFilm = filmService.update(film);
         log.info("Отправлен ответ" + updatedFilm);
         return  updatedFilm;
     }
@@ -73,7 +75,7 @@ public class FilmController {
     @GetMapping
     public Collection<Film> getFilmList() {
         log.info("Пришел запрос Get /films");
-        Collection<Film> allFilms = inMemoryFilmStorage.getAll();
+        Collection<Film> allFilms = filmService.getAll();
         log.info("Отправлен ответ" + allFilms);
         return allFilms;
     }

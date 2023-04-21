@@ -5,13 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import javax.validation.constraints.*;
+import java.sql.Date;
 import java.time.LocalDate;;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "getInstance")
 public class Film {
 
     private Long id;
@@ -25,10 +27,15 @@ public class Film {
     private String description;
 
     @NotNull
-    private LocalDate releaseDate;
+    private Date releaseDate;
 
     @Positive
     private int duration;
+
+    private MpaRating mpa;
+
+    private Set<Genre>  genres;
+
 
     public int getAmountOfLikes() {
        return likes.size();

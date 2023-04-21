@@ -7,25 +7,29 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
+import ru.yandex.practicum.filmorate.storage.MemoryStorage;
 
 
 import javax.validation.Valid;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Component
 @Slf4j
-public class InMemoryFilmStorage implements FilmStorage{
+public class InMemoryFilmStorage implements MemoryStorage<Film> {
     private Long counter = 0l;
-    public static final LocalDate MOVIE_BIRTHDAY = LocalDate.of(1895,12,28);
+    public static final Date MOVIE_BIRTHDAY = Date.valueOf(LocalDate.of(1895,12,28));
     private final HashMap<Long, Film> filmMap = new HashMap<>();
 
+    @Override
     public Film add(Film film) {
         log.info("Запрошено добавление фильма " + film);
-        if (film.getReleaseDate().isBefore(MOVIE_BIRTHDAY)) {
-            log.error("Неверно указана дата релиза" + film.getName());
+        if (!film.getReleaseDate().before(MOVIE_BIRTHDAY)) {
+            log.error("Неверно указана дата релиза " + film.getName());
             throw new ValidationException("Произошла ошибка при попытке создания фильма");
         }
 
@@ -35,6 +39,7 @@ public class InMemoryFilmStorage implements FilmStorage{
         return film;
     }
 
+    @Override
     public Film update(@Valid @RequestBody Film film) {
         log.info("Обновление фильма {}", film);
 
@@ -47,6 +52,7 @@ public class InMemoryFilmStorage implements FilmStorage{
         return film;
     }
 
+    @Override
     public Film getById(Long id) {
         log.info("Запрос фильма {}", id);
 
@@ -60,6 +66,7 @@ public class InMemoryFilmStorage implements FilmStorage{
         return film;
     }
 
+    @Override
     public void delete(Long id) {
         log.info("Удаление фильма " + id);
 
@@ -72,8 +79,14 @@ public class InMemoryFilmStorage implements FilmStorage{
         filmMap.remove(id);
     }
 
+    @Override
     public Collection<Film> getAll() {
         log.info("Запрошен список фильмов");
         return filmMap.values();
+    }
+
+    @Override
+    public Map<Long, Film> getMap() {
+        return filmMap;
     }
 }

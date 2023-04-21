@@ -1,15 +1,11 @@
 package ru.yandex.practicum.filmorate.сontroller;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.film.FilmService;
-import ru.yandex.practicum.filmorate.service.user.UserService;
-import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+import ru.yandex.practicum.filmorate.service.user.IUserService;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -17,21 +13,24 @@ import java.util.Collection;
 @RestController
 @Slf4j
 @RequestMapping("/users")
-//@Component
-@Service
+
 public class UserController {
-    InMemoryUserStorage inMemoryUserStorage;
-    UserService userservice;
+
+    IUserService userservice;
+
     @Autowired
-    public UserController(InMemoryUserStorage inMemoryUserStorage, UserService userservice) {
-        this.inMemoryUserStorage = inMemoryUserStorage;
+    public UserController(IUserService userservice) {
         this.userservice = userservice;
     }
 
     @PostMapping
     public User createUser(@Valid @RequestBody User user) {
         log.info("Пришел запрос Post /users");
-        inMemoryUserStorage.add(user);
+        if(!StringUtils.hasText(user.getName())) {
+            user.setName(user.getLogin());
+        }
+
+        userservice.addUser(user);
         log.info("Отправлен ответ" + user);
         return user;
     }
@@ -39,15 +38,15 @@ public class UserController {
     @PutMapping
     public User updateUser(@Valid @RequestBody User user) {
         log.info("Пришел запрос Put /users");
-        User updatedUser = inMemoryUserStorage.update(user);
+        User updatedUser = userservice.update(user);
         log.info("Отправлен ответ" + updatedUser);
         return updatedUser;
-        }
+    }
 
     @PutMapping("/{id}/friends/{friendId}")
     public User addFriend(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("Пришел запрос Put /{id}/friends/{friendId}");
-        User user = userservice.addFriends(id, friendId);
+        User user = userservice.addFriend(id, friendId);
         log.info("Отправлен ответ" + user);
         return user;
     }
@@ -55,7 +54,7 @@ public class UserController {
     @DeleteMapping("/{id}/friends/{friendId}")
     public User deleteFriends(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("Пришел запрос Delete /{id}/friends/{friendId}");
-        User user = userservice.deleteFriends(id, friendId);
+        User user = userservice.deleteFriend(id, friendId);
         log.info("Отправлен ответ" + user);
         return user;
     }
@@ -79,7 +78,7 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
         log.info("Пришел запрос Get /{id}");
-        User user = inMemoryUserStorage.getById(id);
+        User user = userservice.getById(id);
         log.info("Отправлен ответ" + user);
         return user;
     }
@@ -87,7 +86,7 @@ public class UserController {
     @GetMapping
     public Collection<User> getUsersList() {
         log.info("Пришел запрос Get /users");
-        Collection<User> users = inMemoryUserStorage.getUsersList();
+         Collection<User> users = userservice.getAll();
         log.info("Отправлен ответ" + users);
         return users;
     }

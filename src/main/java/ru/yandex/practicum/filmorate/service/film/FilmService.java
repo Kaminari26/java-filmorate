@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service.film;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;
@@ -30,7 +28,7 @@ public class FilmService {
     public Film addLike(Long id, Long userId) {
         Film film = inMemoryFilmStorage.getById(id);
 
-        log.info("Пользователь: {} ставит лайк фильму: {}", inMemoryUserStorage.getUsersMap().get(userId), film);
+        log.info("Пользователь: {} ставит лайк фильму: {}", inMemoryUserStorage.getMap().get(userId), film);
 
         if (film.getLikes().equals(userId)) {
             log.warn("Лайк уже был поставлен ранее");
@@ -43,7 +41,7 @@ public class FilmService {
 
     public void deleteLike(Long id, Long userId) {
         Film film = inMemoryFilmStorage.getById(id);
-        log.info("Пользователь: {} удаляет лайк у фильма: {}", inMemoryUserStorage.getUsersMap().get(userId), film);
+        log.info("Пользователь: {} удаляет лайк у фильма: {}", inMemoryUserStorage.getMap().get(userId), film);
         if (!film.getLikes().contains(userId)) {
             log.warn("Лайк не найден");
             throw new NoSuchElementException("Не удалось найти лайк");
