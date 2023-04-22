@@ -12,7 +12,7 @@ import java.util.*;
 @Component
 @Slf4j
 public class InMemoryUserStorage implements MemoryStorage<User> {
-    private Long counter = 0l;
+    private Long counter = 0L;
     private final Map<Long, User> users = new HashMap<>();
 
     @Override
