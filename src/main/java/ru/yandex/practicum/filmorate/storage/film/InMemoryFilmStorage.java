@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 public class InMemoryFilmStorage implements MemoryStorage<Film> {
     public static final Date MOVIE_BIRTHDAY = Date.valueOf(LocalDate.of(1895, 12, 28));
     private final HashMap<Long, Film> filmMap = new HashMap<>();
-    private Long counter = 0l;
+    private Long counter = 0L;
 
     @Override
     public Film add(Film film) {
