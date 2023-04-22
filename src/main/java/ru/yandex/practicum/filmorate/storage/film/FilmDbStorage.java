@@ -37,7 +37,7 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public Film add(Film film) {
-        Date MOVIE_BIRTHDAY = Date.valueOf(LocalDate.of(1895, 12, 28));
+        Date movieBirthday = Date.valueOf(LocalDate.of(1895, 12, 28));
         log.info("Добавление нового фильма :" + film);
         try {
             String query = "INSERT INTO FILMS (name, description, release_date, duration, mpa_id) VALUES (?,?,?,?,?)";
@@ -51,7 +51,7 @@ public class FilmDbStorage implements FilmStorage {
                 preparedStatement.setInt(4, film.getDuration());
                 preparedStatement.setInt(5, film.getMpa().getId());
 
-                if (film.getReleaseDate().before(MOVIE_BIRTHDAY)) {
+                if (film.getReleaseDate().before(movieBirthday)) {
                     log.error("Неверно указана дата релиза " + film.getName());
                     throw new ValidationException("Произошла ошибка при попытке создания фильма");
                 }
