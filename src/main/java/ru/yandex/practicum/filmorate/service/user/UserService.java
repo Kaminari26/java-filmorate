@@ -52,8 +52,9 @@ public class UserService implements IUserService {
             log.error("Пользователь не найден");
             throw new NoSuchElementException("Не удалось найти пользователя");
         }
-        Set<Long> mutualFriendsId = userStorage.getMap().get(id).getFriendsIds().stream().
-                filter(userStorage.getMap().get(otherId).getFriendsIds()::contains).collect(Collectors.toSet());
+        Set<Long> mutualFriendsId = userStorage.getMap().get(id).getFriendsIds().stream()
+                .filter(userStorage.getMap().get(otherId).getFriendsIds()::contains)
+                .collect(Collectors.toSet());
         ArrayList<User> mutualFriends = new ArrayList<>();
         for (Long friendsId : mutualFriendsId) {
             mutualFriends.add(userStorage.getMap().get(friendsId));
