@@ -1,14 +1,26 @@
 package ru.yandex.practicum.filmorate.storage.genre;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.MpaRating;
 import ru.yandex.practicum.filmorate.model.User;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 
+@Component
+@Primary
+@Repository
+@Slf4j
 public class GenreDbStorage implements GenreStorage{
 
     private final JdbcTemplate jdbcTemplate;
@@ -33,7 +45,7 @@ public class GenreDbStorage implements GenreStorage{
 
     @Override
     public Genre getById(Long id) {
-        SqlRowSet userRows = jdbcTemplate.queryForRowSet("SELECT * FROM genres WHERE genre_id",id);
+        SqlRowSet userRows = jdbcTemplate.queryForRowSet("SELECT * FROM Genre WHERE genre_id = ?",id);
         if(!userRows.next())
         {
             throw new NoSuchElementException("Не удалось найти жанр");
@@ -44,7 +56,6 @@ public class GenreDbStorage implements GenreStorage{
                 userRows.getString("name")
         );
         return genre;
-
     }
 
     @Override
@@ -53,7 +64,18 @@ public class GenreDbStorage implements GenreStorage{
     }
 
     @Override
-    public Collection<Genre> getAll() {
-        return null;
+    public Collection<Genre> getAll(){
+        Collection<Genre> genres = jdbcTemplate.query("SELECT * FROM GENRE g order by g.genre_id", new RowMapper<Genre>() {
+            @Override
+            public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Genre genre = Genre.getInstance(
+                        rs.getInt("genre_id"),
+                        rs.getString("name")
+                );
+                return genre;
+            }
+        });
+
+        return genres;
     }
 }

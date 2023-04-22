@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.PreparedStatement;
@@ -24,8 +25,6 @@ import java.util.HashSet;
 import java.util.NoSuchElementException;
 
 @Component
-@Primary
-@Repository
 @Slf4j
 public class UserDbStorage implements UserStorage{
 
@@ -111,8 +110,7 @@ public class UserDbStorage implements UserStorage{
     }
 
     @Override
-    public Collection<User> getByQuery(String sqlQuery, @Nullable Object ... params)
-    {
+    public Collection<User> getByQuery(String sqlQuery, @Nullable Object ... params) {
         Collection<User> users = jdbcTemplate.query(sqlQuery , new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -125,7 +123,7 @@ public class UserDbStorage implements UserStorage{
                         rs.getDate("birthday"));
                 return user;
             }
-        }, params);
+        });
         return  users;
     }
 
@@ -144,9 +142,10 @@ public class UserDbStorage implements UserStorage{
 
     @Override
     public Collection<User> mutualFriends(Long id, Long otherId) {
-        String sql = "SELECT u.* FROM FRIENDS_USER fu " +
-                "INNER JOIN FRIENDS_USER fu2 ON FU.USER_ID = " + id + " AND FU2 .USER_ID = " + otherId + " AND FU2 .FRIENDS_ID = FU.FRIENDS_ID AND FU.FRIENDSHIP AND fu2.FRIENDSHIP " +
+        String sql = "SELECT u.* FROM FRIENDS_USER fu \n" +
+                "INNER JOIN FRIENDS_USER fu2 ON FU.USER_ID = ? AND FU2.USER_ID = ? AND FU2 .FRIENDS_ID = FU.FRIENDS_ID\n" +
                 "INNER JOIN USERS u ON fu .FRIENDS_ID = u.USER_ID";
+
         Collection<User> users = jdbcTemplate.query(sql, new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -159,8 +158,11 @@ public class UserDbStorage implements UserStorage{
                         rs.getDate("birthday"));
                 return user;
             }
-        });
+        },id,otherId);
         return users;
+    }
+    public Collection<User> friendsList( Long id) {
+return null;
     }
     public void checkUsers (Long id, Long friendId) {
         SqlRowSet userRows = jdbcTemplate.queryForRowSet("SELECT * FROM users WHERE user_id = ?",id);

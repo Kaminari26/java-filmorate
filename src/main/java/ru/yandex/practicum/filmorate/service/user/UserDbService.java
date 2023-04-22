@@ -50,7 +50,14 @@ public class UserDbService implements IUserService {
 
     @Override
     public Collection<User> friendsListUsers(Long id) {
-        String sql = "SELECT * FROM Users WHERE user_id IN (SELECT friends_id FROM FRIENDS_USER WHERE user_id = "+ id +")";
+               String sql = "SELECT * FROM Users WHERE user_id IN (SELECT friends_id FROM FRIENDS_USER WHERE user_id = "+ id +")";
+      //  String sql =  "SELECT u.* FROM FRIENDS_USER f LEFT JOIN users u ON f.friends_id = u.id" +
+       //         " WHERE f.userId = "+id;
+      //  String sql = "SELECT *  " +
+       //        "FROM Users AS us  " +
+       //         "LEFT JOIN FRIENDS_USER AS fu ON us.USER_ID = FU.USER_ID " +
+        //        "WHERE us.USER_ID = "+id+";";
+
 
         return  userStorage.getByQuery(sql);
     }

@@ -7,9 +7,7 @@ import lombok.RequiredArgsConstructor;
 import javax.validation.constraints.*;
 import java.sql.Date;
 import java.time.LocalDate;;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @RequiredArgsConstructor
@@ -34,7 +32,7 @@ public class Film {
 
     private MpaRating mpa;
 
-    private Set<Genre>  genres;
+    private Set<Genre> genres;
 
 
     public int getAmountOfLikes() {
