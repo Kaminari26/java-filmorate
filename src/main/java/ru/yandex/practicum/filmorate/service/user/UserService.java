@@ -22,13 +22,13 @@ public class UserService implements IUserService {
         this.userStorage = inMemoryUserStorage;
     }
 
-    public User addFriend (Long id , Long friendId) {
-        if(userStorage.getMap().get(id) == null || userStorage.getMap().get(friendId) == null){
+    public User addFriend(Long id, Long friendId) {
+        if (userStorage.getMap().get(id) == null || userStorage.getMap().get(friendId) == null) {
             log.error("Пользователь не найден");
             throw new NoSuchElementException("Не удалось найти пользователя");
         }
 
-        log.info("Пользователь " +id+ " добавляет в друзья " + friendId);
+        log.info("Пользователь " + id + " добавляет в друзья " + friendId);
         userStorage.getMap().get(id).getFriendsIds().add(friendId);
         userStorage.getMap().get(friendId).getFriendsIds().add(id);
         log.info("Друзья добавлены");
@@ -36,11 +36,11 @@ public class UserService implements IUserService {
     }
 
     public User deleteFriend(Long id, Long friendId) {
-        if(userStorage.getMap().get(id) == null || userStorage.getMap().get(friendId) == null){
+        if (userStorage.getMap().get(id) == null || userStorage.getMap().get(friendId) == null) {
             log.error("Пользователь не найден");
             throw new NoSuchElementException("Не удалось найти пользователя");
         }
-        log.info("Пользователь " +id+ " удаляет из друзей " + friendId);
+        log.info("Пользователь " + id + " удаляет из друзей " + friendId);
         userStorage.getMap().get(id).getFriendsIds().remove(friendId);
         userStorage.getMap().get(friendId).getFriendsIds().remove(id);
         log.info("Друг удален");
@@ -48,23 +48,23 @@ public class UserService implements IUserService {
     }
 
     public Collection<User> mutualFriends(Long id, Long otherId) {
-       if (userStorage.getMap().get(id) == null || userStorage.getMap().get(otherId) == null) {
-        log.error("Пользователь не найден");
-           throw new NoSuchElementException("Не удалось найти пользователя");
+        if (userStorage.getMap().get(id) == null || userStorage.getMap().get(otherId) == null) {
+            log.error("Пользователь не найден");
+            throw new NoSuchElementException("Не удалось найти пользователя");
         }
-       Set<Long> mutualFriendsId = userStorage.getMap().get(id).getFriendsIds().stream().
-               filter(userStorage.getMap().get(otherId).getFriendsIds():: contains).collect(Collectors.toSet());
-       ArrayList<User> mutualFriends = new ArrayList<>();
-       for (Long friendsId : mutualFriendsId) {
-           mutualFriends.add(userStorage.getMap().get(friendsId));
-       }
-       log.info("Список общих друзей получен");
-       return mutualFriends;
+        Set<Long> mutualFriendsId = userStorage.getMap().get(id).getFriendsIds().stream().
+                filter(userStorage.getMap().get(otherId).getFriendsIds()::contains).collect(Collectors.toSet());
+        ArrayList<User> mutualFriends = new ArrayList<>();
+        for (Long friendsId : mutualFriendsId) {
+            mutualFriends.add(userStorage.getMap().get(friendsId));
+        }
+        log.info("Список общих друзей получен");
+        return mutualFriends;
     }
 
     public Collection<User> friendsListUsers(Long id) {
         Collection<User> users = new ArrayList<>();
-        for(Long friends : userStorage.getById(id).getFriendsIds()) {
+        for (Long friends : userStorage.getById(id).getFriendsIds()) {
             users.add(userStorage.getById(friends));
         }
         log.info("Список друзей получен");

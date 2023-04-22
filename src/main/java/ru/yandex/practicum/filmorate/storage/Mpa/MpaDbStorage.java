@@ -1,21 +1,17 @@
 package ru.yandex.practicum.filmorate.storage.Mpa;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.MpaRating;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,7 +19,7 @@ import java.util.NoSuchElementException;
 @Primary
 @Repository
 @Slf4j
-public class MpaDbStorage implements MpaStorage{
+public class MpaDbStorage implements MpaStorage {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -32,10 +28,9 @@ public class MpaDbStorage implements MpaStorage{
     }
 
     @Override
-    public MpaRating getRatingById (int id) {
+    public MpaRating getRatingById(int id) {
         SqlRowSet userRows = jdbcTemplate.queryForRowSet("SELECT * FROM MPA WHERE mpa_id = ?", id);
-        if(!userRows.next())
-        {
+        if (!userRows.next()) {
             throw new NoSuchElementException("Не удалось найти рейтинг");
         }
 
@@ -73,8 +68,7 @@ public class MpaDbStorage implements MpaStorage{
     @Override
     public MpaRating getById(Long id) {
         SqlRowSet userRows = jdbcTemplate.queryForRowSet("SELECT * FROM MPA WHERE mpa_id = ?", id);
-        if(!userRows.next())
-        {
+        if (!userRows.next()) {
             throw new NoSuchElementException("Не удалось найти рейтинг");
         }
 

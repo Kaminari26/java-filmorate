@@ -29,7 +29,7 @@ public class FilmDbService implements IFilmService {
 
     @Override
     public void deleteLike(Long id, Long userId) {
-        filmStorage.deleteLike(id,userId);
+        filmStorage.deleteLike(id, userId);
     }
 
     @Override

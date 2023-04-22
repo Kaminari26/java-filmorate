@@ -34,9 +34,9 @@ public class FilmService {
             log.warn("Лайк уже был поставлен ранее");
             throw new ResponseStatusException(HttpStatus.PRECONDITION_REQUIRED);
         }
-            log.info("Лайк успешно поставлен");
-            film.getLikes().add(userId);
-            return film;
+        log.info("Лайк успешно поставлен");
+        film.getLikes().add(userId);
+        return film;
     }
 
     public void deleteLike(Long id, Long userId) {
@@ -46,20 +46,20 @@ public class FilmService {
             log.warn("Лайк не найден");
             throw new NoSuchElementException("Не удалось найти лайк");
         }
-            log.info("Лайк был удален");
-            film.getLikes().remove(userId);
+        log.info("Лайк был удален");
+        film.getLikes().remove(userId);
     }
 
     public Collection<Film> getPopularFilms(int count) {
         log.info("Запрошен топ фильмов");
         Collection<Film> popularFilms = inMemoryFilmStorage.getAll();
         return popularFilms.stream()
-                .sorted((film1,film2) -> film2.getAmountOfLikes() - film1.getAmountOfLikes())
+                .sorted((film1, film2) -> film2.getAmountOfLikes() - film1.getAmountOfLikes())
                 .limit(count)
                 .collect(Collectors.toList());
     }
 
-    public Film getFilm (Long id) {
+    public Film getFilm(Long id) {
         log.info("Запрошен фильм с id " + id);
         Film film = inMemoryFilmStorage.getById(id);
         log.info("Фильм найден");

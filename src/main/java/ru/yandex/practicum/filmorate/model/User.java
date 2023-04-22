@@ -3,11 +3,9 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.*;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 

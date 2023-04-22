@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.model.MpaRating;
 import ru.yandex.practicum.filmorate.service.Mpa.IMpaService;
-import ru.yandex.practicum.filmorate.service.Mpa.MpaService;
 
 import java.util.Collection;
 
@@ -22,12 +21,12 @@ public class MpaRatingController {
     IMpaService mpaService;
 
     @Autowired
-   public MpaRatingController(IMpaService mpaService) {
-       this.mpaService = mpaService;
-   }
+    public MpaRatingController(IMpaService mpaService) {
+        this.mpaService = mpaService;
+    }
 
     @GetMapping("/{id}")
-    public MpaRating getRating (@PathVariable int id) {
+    public MpaRating getRating(@PathVariable int id) {
         log.info("Пришел запрос /mpa/{id}");
         MpaRating mpaRating = mpaService.getRatingId(id);
         log.info("ответ " + mpaRating);
@@ -35,7 +34,7 @@ public class MpaRatingController {
     }
 
     @GetMapping
-    public Collection<MpaRating> getAllRating () {
+    public Collection<MpaRating> getAllRating() {
         log.info("Пришел запрос /mpa");
         Collection<MpaRating> mpaRatings = mpaService.getAllMpa();
         log.info("ответ " + mpaRatings);

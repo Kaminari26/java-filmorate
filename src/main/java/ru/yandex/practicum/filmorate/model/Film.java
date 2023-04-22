@@ -1,12 +1,11 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
 import javax.validation.constraints.*;
 import java.sql.Date;
-import java.time.LocalDate;;
 import java.util.*;
 
 @Data
@@ -21,7 +20,7 @@ public class Film {
     @NotBlank
     private String name;
 
-    @Size (min = 1 ,max = 200)
+    @Size(min = 1, max = 200)
     private String description;
 
     @NotNull
@@ -36,6 +35,6 @@ public class Film {
 
 
     public int getAmountOfLikes() {
-       return likes.size();
+        return likes.size();
     }
 }

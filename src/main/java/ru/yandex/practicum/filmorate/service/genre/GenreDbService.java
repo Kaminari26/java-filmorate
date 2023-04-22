@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.model.MpaRating;
-import ru.yandex.practicum.filmorate.storage.Mpa.MpaStorage;
 import ru.yandex.practicum.filmorate.storage.genre.GenreDbStorage;
 import ru.yandex.practicum.filmorate.storage.genre.GenreStorage;
 
@@ -18,8 +16,9 @@ import java.util.Collection;
 public class GenreDbService implements IGenreService {
 
     GenreStorage genreStorage;
+
     @Autowired
-    public GenreDbService (GenreDbStorage genreStorage) {
+    public GenreDbService(GenreDbStorage genreStorage) {
         this.genreStorage = genreStorage;
     }
 

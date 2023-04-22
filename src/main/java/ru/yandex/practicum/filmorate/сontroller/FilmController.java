@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.service.film.FilmService;
 import ru.yandex.practicum.filmorate.service.film.IFilmService;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -19,8 +18,9 @@ import java.util.Collection;
 public class FilmController {
     InMemoryFilmStorage inMemoryFilmStorage;
     IFilmService filmService;
+
     @Autowired
-    public FilmController(InMemoryFilmStorage inMemoryFilmStorage,IFilmService filmService) {
+    public FilmController(InMemoryFilmStorage inMemoryFilmStorage, IFilmService filmService) {
         this.inMemoryFilmStorage = inMemoryFilmStorage;
         this.filmService = filmService;
     }
@@ -28,10 +28,10 @@ public class FilmController {
     @PostMapping
     public Film create(@Valid @RequestBody Film film) {
         log.info("Пришел запрос Post /films");
-      filmService.add(film);
-       log.info("Отправлен ответ" + film);
+        filmService.add(film);
+        log.info("Отправлен ответ" + film);
 
-       return film;
+        return film;
     }
 
     @PutMapping
@@ -39,7 +39,7 @@ public class FilmController {
         log.info("Пришел запрос Put /films");
         Film updatedFilm = filmService.update(film);
         log.info("Отправлен ответ" + updatedFilm);
-        return  updatedFilm;
+        return updatedFilm;
     }
 
     @PutMapping("/{id}/like/{userId}")
@@ -47,7 +47,7 @@ public class FilmController {
         log.info("Пришел запрос Put /films/{id}/like/{userId}");
         Film likedFilm = filmService.addLike(id, userId);
         log.info("Отправлен ответ" + likedFilm);
-       return likedFilm;
+        return likedFilm;
     }
 
     @DeleteMapping("/{id}/like/{userId}")
@@ -57,7 +57,7 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public Collection<Film> popularFilm(@RequestParam(value = "count", required = false, defaultValue = "10") Integer count){
+    public Collection<Film> popularFilm(@RequestParam(value = "count", required = false, defaultValue = "10") Integer count) {
         log.info("Пришел запрос Get /popular");
         Collection<Film> topFilms = filmService.getPopularFilms(count);
         log.info("Отправлен ответ" + topFilms);

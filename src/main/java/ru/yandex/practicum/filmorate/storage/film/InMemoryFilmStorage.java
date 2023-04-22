@@ -1,10 +1,8 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.storage.MemoryStorage;
@@ -21,9 +19,9 @@ import java.util.NoSuchElementException;
 @Component
 @Slf4j
 public class InMemoryFilmStorage implements MemoryStorage<Film> {
-    private Long counter = 0l;
-    public static final Date MOVIE_BIRTHDAY = Date.valueOf(LocalDate.of(1895,12,28));
+    public static final Date MOVIE_BIRTHDAY = Date.valueOf(LocalDate.of(1895, 12, 28));
     private final HashMap<Long, Film> filmMap = new HashMap<>();
+    private Long counter = 0l;
 
     @Override
     public Film add(Film film) {
@@ -58,7 +56,7 @@ public class InMemoryFilmStorage implements MemoryStorage<Film> {
 
         Film film = filmMap.get(id);
 
-        if(film == null) {
+        if (film == null) {
             log.error("Фильм {} не найден", id);
             throw new NoSuchElementException(String.format("Не удалось найти Фильм %s", id));
         }
@@ -70,7 +68,7 @@ public class InMemoryFilmStorage implements MemoryStorage<Film> {
     public void delete(Long id) {
         log.info("Удаление фильма " + id);
 
-        if(!filmMap.containsKey(id)) {
+        if (!filmMap.containsKey(id)) {
             log.error("Фильм не найден");
             throw new NoSuchElementException("Не удалось найти Фильм");
         }

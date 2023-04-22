@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 public @interface ReleaseDate {
     String message();
 
-    Class <?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] Payload() default { };
+    Class<? extends Payload>[] Payload() default {};
 }
