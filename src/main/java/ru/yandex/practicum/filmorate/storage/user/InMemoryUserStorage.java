@@ -1,13 +1,10 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.User;
-import lombok.extern.slf4j.Slf4j;
 import ru.yandex.practicum.filmorate.storage.MemoryStorage;
-import ru.yandex.practicum.filmorate.storage.Storage;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -24,7 +21,7 @@ public class InMemoryUserStorage implements MemoryStorage<User> {
             log.info("Пользователь " + user.getName() + "не был обновлен.");
             throw new NoSuchElementException("Не удалось найти пользователя");
         }
-        if(user.getName() == null) {
+        if (user.getName() == null) {
             user.setName(user.getLogin());
         }
         users.put(user.getId(), user);
@@ -41,7 +38,7 @@ public class InMemoryUserStorage implements MemoryStorage<User> {
     public User getById(Long id) {
         log.info("Запрошен пользователь с {} ", id);
         User user = users.get(id);
-        if(user == null) {
+        if (user == null) {
             log.error("Пользователь не найден");
             throw new NullPointerException("Не найден пользователь для удаления");
         }
@@ -73,8 +70,8 @@ public class InMemoryUserStorage implements MemoryStorage<User> {
             log.warn("Пользователь " + id + " не найден");
             throw new NoSuchElementException("Не удалось найти пользователя");
         }
-            log.info("Удаление пользователя" + id);
-            users.remove(id);
+        log.info("Удаление пользователя" + id);
+        users.remove(id);
     }
 
     @Override

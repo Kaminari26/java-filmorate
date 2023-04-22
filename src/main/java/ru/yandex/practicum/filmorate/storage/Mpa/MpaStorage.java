@@ -6,7 +6,7 @@ import ru.yandex.practicum.filmorate.storage.DbStorage;
 import java.util.List;
 
 public interface MpaStorage extends DbStorage<MpaRating> {
-    public MpaRating getRating(int id);
+    MpaRating getRating(int id);
 
     List<MpaRating> getRatingAll();
 

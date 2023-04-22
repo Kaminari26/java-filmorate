@@ -5,7 +5,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.util.Collection;
 
 public interface IUserService {
-    User addFriend (Long id , Long friendId);
+    User addFriend(Long id, Long friendId);
 
     User deleteFriend(Long id, Long friendId);
 
@@ -14,7 +14,10 @@ public interface IUserService {
     Collection<User> friendsListUsers(Long id);
 
     User addUser(User user);
+
     User update(User user);
+
     User getById(Long id);
+
     Collection<User> getAll();
 }

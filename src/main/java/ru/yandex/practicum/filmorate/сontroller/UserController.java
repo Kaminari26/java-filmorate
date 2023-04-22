@@ -26,7 +26,7 @@ public class UserController {
     @PostMapping
     public User createUser(@Valid @RequestBody User user) {
         log.info("Пришел запрос Post /users");
-        if(!StringUtils.hasText(user.getName())) {
+        if (!StringUtils.hasText(user.getName())) {
             user.setName(user.getLogin());
         }
 
@@ -70,7 +70,7 @@ public class UserController {
     @GetMapping("/{id}/friends/common/{otherId}")
     public Collection<User> getMutualFriends(@PathVariable Long id, @PathVariable Long otherId) {
         log.info("Пришел запрос Get /{id}/friends/common/{otherId}");
-        Collection<User> users =  userservice.mutualFriends(id,otherId);;
+        Collection<User> users = userservice.mutualFriends(id, otherId);
         log.info("Отправлен ответ" + users);
         return users;
     }
@@ -86,7 +86,7 @@ public class UserController {
     @GetMapping
     public Collection<User> getUsersList() {
         log.info("Пришел запрос Get /users");
-         Collection<User> users = userservice.getAll();
+        Collection<User> users = userservice.getAll();
         log.info("Отправлен ответ" + users);
         return users;
     }
