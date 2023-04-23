@@ -9,13 +9,14 @@ import ru.yandex.practicum.filmorate.storage.genre.GenreDbStorage;
 import ru.yandex.practicum.filmorate.storage.genre.GenreStorage;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 @Service
 @Primary
 @Slf4j
 public class GenreDbService implements IGenreService {
 
-    GenreStorage genreStorage;
+    private final GenreStorage genreStorage;
 
     @Autowired
     public GenreDbService(GenreDbStorage genreStorage) {
@@ -23,12 +24,17 @@ public class GenreDbService implements IGenreService {
     }
 
     @Override
-    public Genre getGenreById(Long id) {
-        return genreStorage.getById(id);
+    public Genre getGenre(Long id) {
+        Genre genre = genreStorage.getById(id);
+        if (genre == null) {
+            throw new NoSuchElementException("Не удалось найти жанр");
+        }
+
+        return genre;
     }
 
     @Override
-    public Collection<Genre> getAllGenres() {
+    public Collection<Genre> getAll() {
         return genreStorage.getAll();
     }
 

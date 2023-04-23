@@ -29,15 +29,15 @@ public class GenreController {
     @GetMapping("/{id}")
     public Genre getRating(@PathVariable long id) {
         log.info("Пришел запрос /genres/{id}");
-        Genre genre = genreService.getGenreById(id);
+        Genre genre = genreService.getGenre(id);
         log.info("ответ " + genre);
         return genre;
     }
 
     @GetMapping
-    public Collection<Genre> getAllGenres() {
+    public Collection<Genre> getAll() {
         log.info("Пришел запрос /genres");
-        Collection<Genre> genres = genreService.getAllGenres();
+        Collection<Genre> genres = genreService.getAll();
         log.info("ответ " + genres);
         return genres;
     }

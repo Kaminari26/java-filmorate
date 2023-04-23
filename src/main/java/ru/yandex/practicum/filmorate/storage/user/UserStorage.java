@@ -1,14 +1,20 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.DbStorage;
+import ru.yandex.practicum.filmorate.storage.Storage;
 
 import java.util.Collection;
 
-public interface UserStorage extends DbStorage<User> {
-    User addFriend(Long id, Long friendId);
+public interface UserStorage extends Storage<User> {
 
-    User deleteFriend(Long id, Long friendId);
+    User add(User user);
 
-    Collection<User> mutualFriends(Long id, Long otherId);
+    boolean update(User user);
+
+    User getById(Long id);
+
+    void delete(Long id);
+
+    Collection<User> getAll();
+
 }

@@ -7,7 +7,7 @@ import java.util.Collection;
 public interface IUserService {
     User addFriend(Long id, Long friendId);
 
-    User deleteFriend(Long id, Long friendId);
+    void deleteFriend(Long id, Long friendId);
 
     Collection<User> mutualFriends(Long id, Long otherId);
 

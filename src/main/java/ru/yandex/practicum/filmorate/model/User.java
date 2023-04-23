@@ -8,8 +8,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @RequiredArgsConstructor
@@ -17,8 +15,6 @@ import java.util.Set;
 public class User {
 
     private Long id;
-
-    private Set<Long> friendsIds = new HashSet<>();
 
     @NotBlank
     private String login;

@@ -5,46 +5,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.friend.FriendDbStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.Collection;
+import java.util.NoSuchElementException;
 
 @Service
 @Primary
 @Slf4j
 public class UserDbService implements IUserService {
-    UserStorage userStorage;
+    private final UserStorage userStorage;
+    private final FriendDbStorage friendDbStorage;
 
     @Autowired
-    public UserDbService(UserStorage userStorage) {
+    public UserDbService(UserStorage userStorage, FriendDbStorage friendDbStorage) {
         this.userStorage = userStorage;
+        this.friendDbStorage = friendDbStorage;
     }
-
 
     @Override
     public User addFriend(Long id, Long friendId) {
         log.info("Добавление в друзья {} пользователя {} :", id, friendId);
-        return userStorage.addFriend(id, friendId);
+        User user = userStorage.getById(id);
+        User friend = userStorage.getById(friendId);
+
+        if (user == null || friend == null) {
+            throw new NoSuchElementException("Не удалось найти пользователя");
+        }
+        friendDbStorage.add(id, friendId);
+
+        return userStorage.getById(id);
     }
 
     @Override
-    public User deleteFriend(Long id, Long friendId) {
+    public void deleteFriend(Long id, Long friendId) {
         log.info("Удаление из друзей пользователем {} пользователя {} :", id, friendId);
-        return userStorage.deleteFriend(id, friendId);
+        friendDbStorage.delete(id, friendId);
     }
 
     @Override
     public Collection<User> mutualFriends(Long id, Long otherId) {
-
-        return userStorage.mutualFriends(id, otherId);
-
+        return friendDbStorage.getMutualFriends(id, otherId);
     }
 
     @Override
     public Collection<User> friendsListUsers(Long id) {
-        String sql = "SELECT * FROM Users WHERE user_id IN (SELECT friends_id FROM FRIENDS_USER WHERE user_id = " + id + ")";
-
-        return userStorage.getByQuery(sql);
+        return friendDbStorage.getFriendsByUserId(id);
     }
 
     @Override
@@ -54,12 +61,22 @@ public class UserDbService implements IUserService {
 
     @Override
     public User update(User user) {
-        return userStorage.update(user);
+        boolean isUpdated = userStorage.update(user);
+        if (!isUpdated) {
+            throw new NoSuchElementException("Не удалось найти пользователя");
+        }
+
+        return user;
     }
 
     @Override
     public User getById(Long id) {
-        return userStorage.getById(id);
+        User user = userStorage.getById(id);
+        if (user == null) {
+            throw new NoSuchElementException("Не удалось найти пользователя");
+        }
+
+        return user;
     }
 
     @Override

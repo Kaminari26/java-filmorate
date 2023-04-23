@@ -5,7 +5,7 @@ import java.util.Collection;
 public interface Storage<T> {
     T add(T obj);
 
-    T update(T obj);
+    boolean update(T obj);
 
     T getById(Long id);
 

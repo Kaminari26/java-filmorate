@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.film.IFilmService;
-import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -16,12 +15,10 @@ import java.util.Collection;
 @Slf4j
 @RequiredArgsConstructor
 public class FilmController {
-    InMemoryFilmStorage inMemoryFilmStorage;
     IFilmService filmService;
 
     @Autowired
-    public FilmController(InMemoryFilmStorage inMemoryFilmStorage, IFilmService filmService) {
-        this.inMemoryFilmStorage = inMemoryFilmStorage;
+    public FilmController(IFilmService filmService) {
         this.filmService = filmService;
     }
 
@@ -43,11 +40,9 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public Film likeFilm(@PathVariable Long id, @PathVariable Long userId) {
+    public void likeFilm(@PathVariable Long id, @PathVariable Long userId) {
         log.info("Пришел запрос Put /films/{id}/like/{userId}");
-        Film likedFilm = filmService.addLike(id, userId);
-        log.info("Отправлен ответ" + likedFilm);
-        return likedFilm;
+        filmService.addLike(id, userId);
     }
 
     @DeleteMapping("/{id}/like/{userId}")

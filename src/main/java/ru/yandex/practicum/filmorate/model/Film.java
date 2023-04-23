@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -18,8 +17,6 @@ import java.util.Set;
 public class Film {
 
     private Long id;
-
-    private Set<Long> likes = new HashSet<>();
 
     @NotBlank
     private String name;
@@ -36,9 +33,4 @@ public class Film {
     private MpaRating mpa;
 
     private Set<Genre> genres;
-
-
-    public int getAmountOfLikes() {
-        return likes.size();
-    }
 }

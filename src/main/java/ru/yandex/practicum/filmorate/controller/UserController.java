@@ -52,11 +52,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public User deleteFriends(@PathVariable Long id, @PathVariable Long friendId) {
+    public void deleteFriends(@PathVariable Long id, @PathVariable Long friendId) {
         log.info("Пришел запрос Delete /{id}/friends/{friendId}");
-        User user = userservice.deleteFriend(id, friendId);
-        log.info("Отправлен ответ" + user);
-        return user;
+        userservice.deleteFriend(id, friendId);
     }
 
     @GetMapping("/{id}/friends")
