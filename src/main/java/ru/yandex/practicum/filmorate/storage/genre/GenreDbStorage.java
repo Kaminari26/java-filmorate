@@ -70,7 +70,7 @@ public class GenreDbStorage implements GenreStorage {
         }, id);
 
         if (genres.size() == 0) {
-            return null;
+            return new TreeSet<>();
         }
 
         Comparator<Genre> comparator = Comparator.comparing(genre -> genre.getId());
