@@ -4,19 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import javax.validation.constraints.*;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
+import java.sql.Date;
 
 @Data
 @RequiredArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "getInstance")
 public class User {
 
     private Long id;
-
-    private Set<Long> friendsIds = new HashSet<>();
 
     @NotBlank
     private String login;
@@ -28,5 +26,5 @@ public class User {
     private String email;
 
     @Past
-    private LocalDate birthday;
+    private Date birthday;
 }

@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.validation;
 
-import javax.validation.Payload;
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)
@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 public @interface ReleaseDate {
     String message();
 
-    Class <?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] Payload() default { };
+    Class<? extends Payload>[] Payload() default {};
 }

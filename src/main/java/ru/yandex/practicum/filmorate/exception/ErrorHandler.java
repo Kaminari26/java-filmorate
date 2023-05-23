@@ -23,7 +23,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(final  NullPointerException e) {
+    public ErrorResponse handleNotFoundException(final NullPointerException e) {
         log.info("404 {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
